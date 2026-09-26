@@ -1,0 +1,42 @@
+<%- include('partials/head', { title: produit ? 'Modifier le produit' : 'Nouveau produit' }) %>
+<%- include('partials/nav-dash') %>
+
+<section class="section container">
+  <div style="max-width:520px;">
+    <h1 style="font-size:1.5rem;"><%= produit && produit.id ? 'Modifier le produit' : 'Nouveau produit' %></h1>
+
+    <div class="form-card" style="margin-top:16px;">
+      <% if (erreurs && erreurs.length) { %>
+        <div class="alerte alerte-erreur">
+          <ul class="liste-erreurs">
+            <% erreurs.forEach(function(e) { %><li><%= e %></li><% }) %>
+          </ul>
+        </div>
+      <% } %>
+
+      <form class="large" method="POST" action="<%= produit && produit.id ? '/tableau-de-bord/produits/' + produit.id + '/modifier' : '/tableau-de-bord/produits/nouveau' %>">
+        <div class="champ">
+          <label for="nom">Nom du produit</label>
+          <input type="text" id="nom" name="nom" value="<%= produit ? (produit.nom || '') : '' %>" placeholder="Ex: Robe wax bleue" required>
+        </div>
+        <div class="champ">
+          <label for="prix">Prix (FCFA)</label>
+          <input type="number" id="prix" name="prix" min="1" value="<%= produit ? (produit.prix || '') : '' %>" required>
+        </div>
+        <div class="champ">
+          <label for="image_url">Lien de la photo (optionnel)</label>
+          <input type="url" id="image_url" name="image_url" value="<%= produit ? (produit.image_url || '') : '' %>" placeholder="https://...">
+          <div class="aide">Collez un lien d'image (Google Drive, Facebook, Imgur...). Laissez vide si vous n'avez pas de photo.</div>
+        </div>
+        <div class="champ">
+          <label for="description">Description courte (optionnel)</label>
+          <textarea id="description" name="description" placeholder="Taille, couleur, matiere..."><%= produit ? (produit.description || '') : '' %></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit"><%= produit && produit.id ? 'Enregistrer' : 'Ajouter le produit' %></button>
+        <a class="btn btn-ghost" href="/tableau-de-bord">Annuler</a>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

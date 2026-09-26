@@ -1,0 +1,61 @@
+<%- include('partials/head', { title: 'Administration' }) %>
+
+<header class="dash-header">
+  <div class="container">
+    <span style="font-family:'Fraunces',serif;font-weight:700;font-size:1.2rem;">Administration &middot; <%= brandName %></span>
+    <form method="POST" action="/admin/deconnexion" style="margin:0;">
+      <button class="btn btn-ghost btn-sm" style="border-color:rgba(255,255,255,0.4);color:#fff;" type="submit">Deconnexion</button>
+    </form>
+  </div>
+</header>
+
+<section class="section container">
+  <h1 style="font-size:1.4rem;">Marchands (<%= marchands.length %>)</h1>
+  <p style="color:var(--ink-soft);">
+    Apres avoir verifie un paiement Mobile Money (SMS ou capture d'ecran envoye par le marchand),
+    cliquez sur "Activer" pour prolonger son abonnement.
+  </p>
+
+  <div style="overflow-x:auto;">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Boutique</th>
+          <th>Contact</th>
+          <th>Produits</th>
+          <th>Statut</th>
+          <th>Expire le</th>
+          <th>Inscrit le</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% marchands.forEach(function(m) { %>
+          <tr>
+            <td><a href="/b/<%= m.slug %>" target="_blank"><%= m.nom_boutique %></a></td>
+            <td>
+              <a href="https://wa.me/<%= m.whatsapp %>" target="_blank"><%= m.whatsapp %></a><br>
+              <span style="color:var(--ink-soft);font-size:0.82rem;"><%= m.email %></span>
+            </td>
+            <td><%= m.nb_produits %></td>
+            <td><span class="badge <%= m.statut.actif ? 'badge-succes' : 'badge-warn' %>"><%= m.statut.libelle %></span></td>
+            <td><%= m.statut.expireLe ? formaterDate(m.statut.expireLe) : '-' %></td>
+            <td><%= formaterDate(m.cree_le) %></td>
+            <td>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <form method="POST" action="/admin/marchands/<%= m.id %>/activer" style="margin:0;">
+                  <button class="btn btn-amber btn-sm" type="submit">Activer 30j</button>
+                </form>
+                <form method="POST" action="/admin/marchands/<%= m.id %>/suspendre" style="margin:0;" onsubmit="return confirm('<%= m.suspendu ? 'Reactiver' : 'Suspendre' %> ce compte ?');">
+                  <button class="btn btn-danger btn-sm" type="submit"><%= m.suspendu ? 'Reactiver' : 'Suspendre' %></button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,31 @@
+<%- include('partials/head', { title: marchand.nom_boutique }) %>
+
+<header class="storefront-header">
+  <div class="container">
+    <h1 style="color:#fff;font-size:1.7rem;"><%= marchand.nom_boutique %></h1>
+    <% if (marchand.ville) { %><div class="ville"><%= marchand.ville %></div><% } %>
+  </div>
+</header>
+
+<section class="section container">
+  <% if (!produits.length) { %>
+    <div class="vide">Cette boutique n'a pas encore de produit en ligne. Revenez bientot !</div>
+  <% } else { %>
+    <div class="produits-grid" style="grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));">
+      <% produits.forEach(function(p) { %>
+        <div class="produit-public">
+          <% if (p.image_url) { %><img src="<%= p.image_url %>" alt="<%= p.nom %>"><% } %>
+          <div class="corps">
+            <h3 style="margin:0;"><%= p.nom %></h3>
+            <div class="prix"><%= p.prix.toLocaleString('fr-FR') %> FCFA</div>
+            <% if (p.description) { %><div class="description"><%= p.description %></div><% } %>
+            <a class="btn btn-whatsapp btn-block" href="/b/<%= marchand.slug %>/commander/<%= p.id %>">Commander sur WhatsApp</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/powered-by') %>
+<%- include('partials/footer') %>

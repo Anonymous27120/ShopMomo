@@ -1,0 +1,19 @@
+<%- include('partials/head', { title: 'Administration' }) %>
+
+<section class="section container">
+  <div style="max-width:380px;margin:60px auto 0;">
+    <h1 style="font-size:1.4rem;">Administration</h1>
+    <div class="form-card" style="margin-top:16px;">
+      <% if (erreur) { %><div class="alerte alerte-erreur"><%= erreur %></div><% } %>
+      <form method="POST" action="/admin/connexion">
+        <div class="champ">
+          <label for="mot_de_passe">Mot de passe admin</label>
+          <input type="password" id="mot_de_passe" name="mot_de_passe" required autofocus>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Entrer</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

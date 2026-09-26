@@ -1,0 +1,66 @@
+<%- include('partials/head', { title: 'Votre boutique en ligne, vos commandes sur WhatsApp' }) %>
+<%- include('partials/nav-public') %>
+
+<header class="hero container">
+  <div>
+    <h1>Vendez en ligne. Recevez chaque commande directement sur votre WhatsApp.</h1>
+    <p class="lead">
+      <%= brandName %> vous donne une vraie page boutique a partager sur Facebook et WhatsApp.
+      Vos clients choisissent un produit, un clic ouvre WhatsApp avec le message deja pret —
+      vous ne perdez plus une seule commande.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-amber" href="/inscription">Creer ma boutique gratuitement</a>
+      <a class="btn btn-ghost" href="#comment-ca-marche">Voir comment ca marche</a>
+    </div>
+  </div>
+  <div class="chat-mock">
+    <div class="chat-bubble">
+      Bonjour Boutique Aicha, je souhaite commander&nbsp;: Robe wax bleue (8 000 FCFA). Vu sur votre boutique en ligne.
+      <div class="chat-time">14:32</div>
+    </div>
+    <div class="chat-bubble moi">
+      Bien recu ! Disponible en taille M, livraison possible des demain.
+      <div class="chat-time">14:33 &check;&check;</div>
+    </div>
+  </div>
+</header>
+
+<section class="section container" id="comment-ca-marche">
+  <div class="section-title">
+    <h2>Trois etapes, aucune competence technique</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Creez votre boutique</h3>
+      <p>Nom, ville et numero WhatsApp. Votre page est en ligne en moins de deux minutes.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Ajoutez vos produits</h3>
+      <p>Photo, prix en FCFA et description courte. Modifiez ou retirez un article a tout moment.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Recevez les commandes</h3>
+      <p>Chaque "Commander" ouvre WhatsApp avec le produit et le prix deja ecrits pour le client.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="pricing-box">
+    <div>
+      <h2 style="color:#fff;">Gratuit pendant votre essai, puis un forfait unique</h2>
+      <p>Apres l'essai, activez votre mois via un paiement Mobile Money — pas de carte bancaire requise.</p>
+    </div>
+    <div>
+      <div class="prix">2 000 FCFA<span style="font-size:1rem;font-weight:400;"> / mois</span></div>
+      <a class="btn btn-amber" href="/inscription" style="margin-top:10px;">Commencer l'essai gratuit</a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/marketing-footer') %>
+<%- include('partials/footer') %>

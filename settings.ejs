@@ -1,0 +1,41 @@
+<%- include('partials/head', { title: 'Parametres' }) %>
+<%- include('partials/nav-dash') %>
+
+<section class="section container">
+  <div style="max-width:460px;">
+    <h1 style="font-size:1.5rem;">Parametres de la boutique</h1>
+
+    <div class="form-card" style="margin-top:16px;">
+      <%- include('partials/flash') %>
+      <% if (erreurs && erreurs.length) { %>
+        <div class="alerte alerte-erreur">
+          <ul class="liste-erreurs">
+            <% erreurs.forEach(function(e) { %><li><%= e %></li><% }) %>
+          </ul>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/tableau-de-bord/parametres">
+        <div class="champ">
+          <label for="nom_boutique">Nom de la boutique</label>
+          <input type="text" id="nom_boutique" name="nom_boutique" value="<%= valeurs.nom_boutique %>" required>
+        </div>
+        <div class="champ">
+          <label for="whatsapp">Numero WhatsApp</label>
+          <input type="text" id="whatsapp" name="whatsapp" value="<%= valeurs.whatsapp %>" required>
+        </div>
+        <div class="champ">
+          <label for="ville">Ville</label>
+          <input type="text" id="ville" name="ville" value="<%= valeurs.ville || '' %>">
+        </div>
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
+      </form>
+    </div>
+
+    <p style="margin-top:14px;font-size:0.85rem;color:var(--ink-soft);">
+      Le lien de votre boutique (<code>/b/<%= valeurs.slug %></code>) ne change pas, meme si vous renommez votre boutique.
+    </p>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,81 @@
+<%- include('partials/head', { title: 'Tableau de bord' }) %>
+<%- include('partials/nav-dash') %>
+
+<section class="section container">
+  <%- include('partials/flash') %>
+
+  <% if (!statut.actif) { %>
+    <div class="alerte alerte-erreur">
+      Votre periode d'essai/abonnement est terminee. Votre boutique publique est en pause jusqu'a l'activation
+      de votre abonnement. Contactez-nous sur WhatsApp pour regulariser votre paiement Mobile Money.
+      <% if (contactWhatsapp) { %>
+        <a href="https://wa.me/<%= contactWhatsapp %>" target="_blank">Contacter le support</a>
+      <% } %>
+    </div>
+  <% } %>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+    <h1 style="font-size:1.6rem;">Ma boutique</h1>
+    <span class="badge <%= statut.actif ? 'badge-succes' : 'badge-warn' %>"><%= statut.libelle %></span>
+  </div>
+
+  <div class="lien-boutique">
+    <div>
+      Lien a partager sur Facebook / WhatsApp&nbsp;: <br>
+      <code id="lien-valeur"><%= lienBoutique %></code>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('lien-valeur').textContent); this.textContent='Copie !'">Copier le lien</button>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="valeur"><%= produits.length %></div>
+      <div class="libelle">Produits en ligne</div>
+    </div>
+    <div class="stat-card">
+      <div class="valeur"><%= totalClics %></div>
+      <div class="libelle">Clics "Commander" recus</div>
+    </div>
+    <div class="stat-card">
+      <div class="valeur"><%= statut.expireLe ? formaterDate(statut.expireLe) : '-' %></div>
+      <div class="libelle"><%= statut.actif ? "Valide jusqu'au" : 'Expire depuis le' %></div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:30px;">
+    <h2 style="font-size:1.3rem;margin:0;">Mes produits</h2>
+    <a class="btn btn-primary" href="/tableau-de-bord/produits/nouveau">Ajouter un produit</a>
+  </div>
+
+  <% if (!produits.length) { %>
+    <div class="vide">
+      <p style="margin:0 0 14px;">Votre boutique n'a pas encore de produit. Ajoutez le premier pour commencer a recevoir des commandes.</p>
+      <a class="btn btn-amber" href="/tableau-de-bord/produits/nouveau">Ajouter mon premier produit</a>
+    </div>
+  <% } else { %>
+    <div class="produits-grid">
+      <% produits.forEach(function(p) { %>
+        <div class="produit-card <%= p.disponible ? '' : 'produit-indisponible' %>">
+          <% if (p.image_url) { %><img src="<%= p.image_url %>" alt="<%= p.nom %>">
+          <% } else { %><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E" alt=""> <% } %>
+          <div class="corps">
+            <h3><%= p.nom %></h3>
+            <div class="prix"><%= p.prix.toLocaleString('fr-FR') %> FCFA</div>
+            <div class="meta"><%= p.nb_clics %> clic(s) commande<% if (!p.disponible) { %> &middot; masque de la boutique<% } %></div>
+            <div class="actions">
+              <a class="btn btn-ghost btn-sm" href="/tableau-de-bord/produits/<%= p.id %>/modifier">Modifier</a>
+              <form method="POST" action="/tableau-de-bord/produits/<%= p.id %>/disponibilite" style="margin:0;">
+                <button class="btn btn-ghost btn-sm" type="submit"><%= p.disponible ? 'Masquer' : 'Afficher' %></button>
+              </form>
+              <form method="POST" action="/tableau-de-bord/produits/<%= p.id %>/supprimer" style="margin:0;" onsubmit="return confirm('Supprimer ce produit ?');">
+                <button class="btn btn-danger btn-sm" type="submit">Supprimer</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>
